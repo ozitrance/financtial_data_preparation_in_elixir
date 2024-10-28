@@ -1,4 +1,4 @@
-defmodule FinanctialDataPreparation do
+defmodule TimeBars do
   require Explorer.DataFrame # Needed so we can use lazy functions like DF.mutate_with
 
   alias Explorer.DataFrame, as: DF
@@ -6,7 +6,7 @@ defmodule FinanctialDataPreparation do
 
   @input_csv_file "BTCUSDT-aggTrades-2024-09.csv"
 
-  def get_time_bars do
+  def get_bars do
     # Getting the timeframe in milliseconds. Can also just use an int directly.
     timeframe_in_ms = ConvertDuration.to_milliseconds("1 day")
 
