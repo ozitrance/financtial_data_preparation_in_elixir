@@ -24,7 +24,7 @@ defmodule StandardBars do
         first_time_stamp = df["timestamp"] |> Series.first
         # Creating a series for time elapsed_time_since_first_timestamp (current_trade_timestamp - first_timestamp)
         elapsed_ms = df["timestamp"] |> Series.subtract(first_time_stamp)
-        # Divding our new series by the duration we want and casting back to int - which will remove any decimal point values
+        # Dividing our new series by the duration we want and casting back to int - which will remove any decimal point values
         bar_numbers = elapsed_ms |> Series.divide(timeframe_in_ms) |> Series.cast({:s, 64})
         # And then returning the bars, which will add them as a series to out Dataframe
         [bar_number: bar_numbers]
@@ -163,10 +163,10 @@ defmodule StandardBars do
 
     # Here we convert the series with our data to iovec type, and sending the data together with our threshold to our NIF
     bars = FinancialDataPreparationNIF.cumulative_sum_with_reset(Series.to_iovec(df[bar_type]), threshold)
-        # This time we get binary data back (integer - the bar numbers) so we convert it back to a Series
+        # This time we get binary data back (signed integer - the bar numbers) so we convert it back to a Series
         |> Series.from_binary({:s, 64})
     df
-      # Now we can add our already created series it to our DF
+      # Now we can add our already created series to our DF
       |> DF.put(:bar_number, bars)
       # And summarise as before
       |> Utils.summarise_by_bar_number

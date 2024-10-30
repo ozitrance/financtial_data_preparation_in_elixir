@@ -192,7 +192,7 @@ defmodule TimeBars do
         first_time_stamp = df["timestamp"] |> Series.first
         # Creating a series for time elapsed_time_since_first_timestamp (current_trade_timestamp - first_timestamp)
         elapsed_ms = df["timestamp"] |> Series.subtract(first_time_stamp)
-        # Divding our new series by the duration we want and casting back to int - which will remove any decimal point values
+        # Dividing our new series by the duration we want and casting back to int - which will remove any decimal point values
         bar_numbers = elapsed_ms |> Series.divide(timeframe_in_ms) |> Series.cast({:s, 64})
         # And then returning the bars, which will add them as a series to out Dataframe
         [bar_number: bar_numbers]
@@ -248,7 +248,7 @@ defmodule VlHelper do
       |> Vl.encode(:color, condition: [test: "datum.open < datum.close", value: "green"], value: "red")
       # Adding the bars layers
       |> Vl.layers([
-        # The bodies ():bar type)
+        # The bodies (:bar type)
         Vl.new()
         |> Vl.mark(:bar)
         |> Vl.encode_field(:y, "open")

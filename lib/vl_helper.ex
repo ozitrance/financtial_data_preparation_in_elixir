@@ -20,7 +20,7 @@ defmodule VlHelper do
       |> Vl.encode(:color, condition: [test: "datum.open < datum.close", value: "green"], value: "red")
       # Adding the bars layers
       |> Vl.layers([
-        # The bodies ():bar type)
+        # The bodies (:bar type)
         Vl.new()
         |> Vl.mark(:bar)
         |> Vl.encode_field(:y, "open")
