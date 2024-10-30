@@ -1,3 +1,5 @@
 BTCUSDT-aggTrades-2024-09.csv
 https://data.binance.vision/data/futures/um/monthly/aggTrades/BTCUSDT/BTCUSDT-aggTrades-2024-09.zip
 
+BTCUSDT-1d-2024-08.csv
+https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1d/BTCUSDT-1d-2024-08.zip

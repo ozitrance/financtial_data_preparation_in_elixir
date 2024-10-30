@@ -3,7 +3,7 @@ defmodule FinanctialDataPreparation.MixProject do
 
   def project do
     [
-      app: :financtial_data_preparation,
+      app: :financial_data_preparation,
       version: "0.1.0",
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
@@ -24,9 +24,8 @@ defmodule FinanctialDataPreparation.MixProject do
       {:explorer, "~> 0.9.2"},
       {:benchee, "~> 1.3.1"},
       {:csv, "~> 3.2"},
-      {:vega_lite, "~> 0.1.9"}
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:vega_lite, "~> 0.1.9"},
+      {:jason, "~> 1.4.4"}
     ]
   end
 end
