@@ -9,7 +9,7 @@ ERL_LDFLAGS = -L$(ERL_LIBDIR) -lei
 NIF_NAME = financial_data_preparation
 TARGET = ../priv/$(NIF_NAME).so
 
-SRC = cumulative_sum_with_reset.c
+SRC = financial_data_preparation_nif.c cumulative_sum_with_reset.c information_driven_bars.c
 
 all: $(TARGET)
 

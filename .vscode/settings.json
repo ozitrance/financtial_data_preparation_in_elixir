@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "deque": "c",
+        "string": "c",
+        "vector": "c",
+        "array": "c",
+        "hash_map": "c",
+        "list": "c",
+        "unordered_map": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "erl_nif.h": "c",
+        "utility": "c",
+        "algorithm": "c",
+        "stdlib.h": "c",
+        "math.h": "c"
+    }
+}

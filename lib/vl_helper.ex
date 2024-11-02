@@ -42,22 +42,20 @@ defmodule VlHelper do
   defp truncate_timestamp(series) do
     Series.cast(series, {:naive_datetime, :millisecond}) |> Series.transform(&NaiveDateTime.beginning_of_day/1)
   end
-  # Expecting series_array to contain 3 timestamp series in this order: tick, volume, dollar
-  def get_bar_count_plot(series_array, height \\ 600, width \\ 800) do
 
-    # Apparently Enum cannot enumerate over a list of series so we do it manually...
-    # Truncating - aligning timestamps to beginning of day so we can group by day
-    tick_bars_series = series_array |> elem(0) |> truncate_timestamp
-    volume_bars_series = series_array |> elem(1) |> truncate_timestamp
-    dollar_bars_series = series_array |> elem(2) |> truncate_timestamp
+# This function accepts a list of tuples, each with 2 elements for {date_time_series, title}
+  def get_bar_count_plot(tuples_array, height \\ 600, width \\ 800) do
 
-    # Creating a DF from each series with another column to identify the series before we merge them
-    tick_bars_df = DF.new([timestamp: tick_bars_series]) |> DF.mutate([series: "Tick Bars"])
-    volume_bars_df = DF.new([timestamp: volume_bars_series]) |> DF.mutate([series: "Volume Bars"])
-    dollar_bars_df = DF.new([timestamp: dollar_bars_series]) |> DF.mutate([series: "Dollar Bars"])
+    # Mapping our tuples to a list with Dataframes, after truncating our timestamps and adding a title column
+    dfs_array = tuples_array
+      |> Enum.map(fn tuple_item ->
+        {series, title} = tuple_item
+        series = truncate_timestamp(series)
+        DF.new([timestamp: series]) |> DF.mutate([series: ^title])
+      end)
 
-    # Merging our 3 DFs
-    df = DF.concat_rows([tick_bars_df, volume_bars_df, dollar_bars_df])
+    # Merging our DFs
+    merged_df = DF.concat_rows(dfs_array)
       # Grouping by timestamp (day in our case), and series - so each series gets its own row for each day
       |> DF.group_by(["timestamp", "series"])
       # Counting the number of rows for each group / day in our case
@@ -65,13 +63,14 @@ defmodule VlHelper do
 
     # Creating new VegaLite Plot
     Vl.new(width: width, height: height)
-      |> Vl.data_from_values(DF.to_rows(df))
+      |> Vl.data_from_values(DF.to_rows(merged_df))
       |> Vl.mark(:line) # Telling Vl we want a line plot
       |> Vl.encode(:x, field: "timestamp", title: "Date", type: :temporal) # timestamp on the x axis is a temporal type - represents datetime values
       |> Vl.encode(:y, field: "count", title: "Bar Count", type: :quantitative) # count is our data we want to plot on the y axis
       |> Vl.encode_field(:color, "series", type: :nominal) # differentiate the series column by color
       |> Vl.encode_field(:stroke_dash, "series", type: :nominal) # and then by stroke_dash size
-      |> save_as_png("bar_count.png") # save the output as png file
+      |> save_as_png("bar_count_information_driven.png") # save the output as png file
+
   end
 
 end

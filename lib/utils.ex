@@ -28,7 +28,6 @@ defmodule Utils do
       |> DF.discard("bar_number")
   end
 
-
 end
 
 defmodule ConvertDuration do

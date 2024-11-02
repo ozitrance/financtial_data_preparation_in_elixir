@@ -32,16 +32,12 @@ ERL_NIF_TERM cumulative_sum_with_reset(ErlNifEnv* env, int argc, const ERL_NIF_T
 
     // Estimating needed size for our output buffer so we can fill it up while looping through the data, all in one pass
     size_t total_input_bytes = iovec->size;
+    size_t total_num_values = total_input_bytes / sizeof(double); // And calculating the number of values according to their size (sizeof double in this case)
 
-    // Allocate output binary
-    ErlNifBinary out_bin;
-    if (!enif_alloc_binary(total_input_bytes, &out_bin))
-    {
-        return enif_make_badarg(env);
-    }
-
-    // Casting to int_64 - the type for our bar numbers (long / big integer)
-    int64_t* out_data = (int64_t *)out_bin.data;
+    // Allocate the output binary so we can write to it in 1 pass while we process the input data
+    ERL_NIF_TERM result;
+    unsigned char* out_data_raw = enif_make_new_binary(env, total_num_values * sizeof(int64_t), &result);
+    int64_t* out_data = (int64_t*)out_data_raw; // Casting our data to int64 - our bar numbers / simple integers
 
     // Initial Values
     double cum_value = 0.0;
@@ -79,18 +75,6 @@ ERL_NIF_TERM cumulative_sum_with_reset(ErlNifEnv* env, int argc, const ERL_NIF_T
         }
     }
 
-    // Once we're done with the loop we create a binary value out of our list so we can send it back to Elixir
-    ERL_NIF_TERM result = enif_make_binary(env, &out_bin);
-    // And we return it
+    // And we just need to return our result 
     return result;
 }
-    
-// Here we define the functions for this NIF. For now we only have 1 but we can have more
-static ErlNifFunc nif_funcs[] = {
-    // ERL_NIF_DIRTY_JOB_CPU_BOUND is needed since this function takes more than 1 ms, according to Erlang's docs, so we don't block the main VM thread
-    {"cumulative_sum_with_reset", 2, cumulative_sum_with_reset, ERL_NIF_DIRTY_JOB_CPU_BOUND}
-};
-
-// Naming our NIF and setting our functions. 
-// All the NULL values responsible for life cycle of our NIF, which we don't really use since our NIF works in sync and returns immediately
-ERL_NIF_INIT(Elixir.FinancialDataPreparationNIF, nif_funcs, NULL, NULL, NULL, NULL)
