@@ -41,7 +41,7 @@ defmodule Bars do
       |> DF.summarise(
           # Time of the bar. We calculate it according to the timeframe and first_time_stamp.
           # In this case, bar_number series all rows are the same so first/last/min/max all would work.
-          date_time: ^timeframe_in_ms * Series.first(bar_number) + ^first_time_stamp,
+          timestamp: ^timeframe_in_ms * Series.first(bar_number) + ^first_time_stamp,
           open: Series.first(price), # First price in the group - the open price
           high: Series.max(price), # Highest price in the group - the high price
           low: Series.min(price), # Lowest price in the group - the low price
@@ -146,17 +146,17 @@ defmodule Bars do
   def get_bar_count_plot do
 
     # VlHelper.get_bar_count_plot([
-    #   {get_standard_bars("tick")["date_time"], "Tick Bars"},
-    #   {get_standard_bars("volume")["date_time"], "Volume Bars"},
-    #   {get_standard_bars("dollar")["date_time"], "Dollar Bars"}
+    #   {get_standard_bars("tick")["timestamp"], "Tick Bars"},
+    #   {get_standard_bars("volume")["timestamp"], "Volume Bars"},
+    #   {get_standard_bars("dollar")["timestamp"], "Dollar Bars"}
     # ])
 
     VlHelper.get_bar_count_plot([
-      {get_standard_bars("dollar")["date_time"], "Standard Dollar Bars"},
-      {get_information_driven_bars("imbalance","dollar", 1)["date_time"], "EMA Imbalance Dollar Bars"},
-      {get_information_driven_bars("imbalance","dollar", 0)["date_time"], "Constant Imbalance Dollar Bars"},
-      {get_information_driven_bars("run","dollar", 1)["date_time"], "EMA Run Dollar Bars"},
-      {get_information_driven_bars("run","dollar", 0)["date_time"], "Constant Run Dollar Bars"},
+      {get_standard_bars("dollar")["timestamp"], "Standard Dollar Bars"},
+      {get_information_driven_bars("imbalance","dollar", 1)["timestamp"], "EMA Imbalance Dollar Bars"},
+      {get_information_driven_bars("imbalance","dollar", 0)["timestamp"], "Constant Imbalance Dollar Bars"},
+      {get_information_driven_bars("run","dollar", 1)["timestamp"], "EMA Run Dollar Bars"},
+      {get_information_driven_bars("run","dollar", 0)["timestamp"], "Constant Run Dollar Bars"},
     ])
 
   end

@@ -14,7 +14,7 @@ defmodule Utils do
       |> DF.group_by(:bar_number)
       # Summarizing the results to create a new DF with our bars - each group will be a new row in our new DF
       |> DF.summarise(
-          date_time: Series.first(timestamp), # Time of the first trade in the bar.
+          timestamp: Series.first(timestamp), # Time of the first trade in the bar.
           open: Series.first(price), # First price in the group - the open price
           high: Series.max(price), # Highest price in the group - the high price
           low: Series.min(price), # Lowest price in the group - the low price

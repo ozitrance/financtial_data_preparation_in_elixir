@@ -6,6 +6,8 @@ static ErlNifFunc nif_funcs[] = {
     {"cumulative_sum_with_reset", 2, cumulative_sum_with_reset, ERL_NIF_DIRTY_JOB_CPU_BOUND},
     {"compute_imbalance_bars", 6, compute_imbalance_bars, ERL_NIF_DIRTY_JOB_CPU_BOUND},
     {"compute_run_bars", 6, compute_run_bars, ERL_NIF_DIRTY_JOB_CPU_BOUND},
+    {"symmetric_cumulative_sum_with_reset", 2, symmetric_cumulative_sum_with_reset, ERL_NIF_DIRTY_JOB_CPU_BOUND},
+    {"searchsorted", 3, searchsorted, ERL_NIF_DIRTY_JOB_CPU_BOUND},
 };
 
 // Naming our NIF and setting our functions. 

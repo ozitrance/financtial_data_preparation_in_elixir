@@ -21,7 +21,9 @@ defmodule FinanctialDataPreparation.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:explorer, "~> 0.9.2"},
+      {:flow, "~> 1.2.4"},
+      {:explorer, "~> 0.10.0"},
+      {:nx, "~> 0.9.1"},
       {:benchee, "~> 1.3.1"},
       {:csv, "~> 3.2"},
       {:vega_lite, "~> 0.1.9"},
