@@ -1,4 +1,4 @@
 # FinanctialDataPreparation
 
 The Code for The Medium Article:
-[Preparing Financial Time Series for ML in Elixir, Part 2: Information-Driven Bars - With Explorer & More NIFs!]()
+[The Triple Barrier Method: Labeling Financial Time Series for ML in Elixir](https://medium.com/@yairoz/the-triple-barrier-method-labeling-financial-time-series-for-ml-in-elixir-e539301b90d6)
